@@ -500,7 +500,34 @@ function App() {
       reward: 400,
     },
   ];
+<Panel title="Dungeon Gate | دروازه دانجن" icon={Sword}>
+  {dungeons.map((d, i) => {
+    const key = dungeon${i};
+    const done = !!current[key];
 
+    return (
+      <div className="quest" key={key}>
+        <div>
+          <strong>{d.name}</strong>
+          <small>{d.description}</small>
+          <span className="xp">پاداش: {d.reward} XP</span>
+        </div>
+        <button
+          className={done ? "selected" : "action"}
+          onClick={() => {
+            if (!done && window.confirm("آیا این دانجن را واقعاً تکمیل کرده‌ای؟")) {
+              update(key, true);
+              setXp(old => old + d.reward);
+            }
+          }}
+          disabled={done}
+        >
+          {done ? "تکمیل شد" : "ثبت تکمیل"}
+        </button>
+      </div>
+    );
+  })}
+</Panel>
   function claimReward(reward, title) {
     const key = "mission-" + title;
     if (todayData.claimed.includes(key)) return;
